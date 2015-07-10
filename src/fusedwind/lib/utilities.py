@@ -551,7 +551,7 @@ def check_for_missing_unit_tests(modules):
             print '!!! There does not appear to be a unit test for:', mod + '.' + test
 
 
-def check_gradient_unit_test(unittest, comp, fd='central', step_size=1e-6, tol=1e-6, display=False,
+def check_gradient_unit_test(unittest, comp, fd='central', step_size=1e-6, tol=1e-5, display=False,
         show_missing_warnings=True, show_scaling_warnings=False, min_grad=1e-6, max_grad=1e6):
     """compare provided analytic gradients to finite-difference gradients with unit testing.
     Same as check_gradient, but provides a unit test for each gradient for convenience.
