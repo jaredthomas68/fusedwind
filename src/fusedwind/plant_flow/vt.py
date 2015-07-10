@@ -513,9 +513,9 @@ class WTPC(GenericWindTurbinePowerCurveVT):
 
     # WTPC
     name = Str(desc='The wind turbine name')
-    position = Array(shape=(2,), desc='The UTM position of the turbine', units='m')
-    positionX = Array(shape=(1,), desc='The UTM X position of the turbine', units='m')
-    positionY = Array(shape=(1,), desc='The UTM Y position of the turbine', units='m')
+#     position = Array(shape=(2,), desc='The UTM position of the turbine', units='m')
+    positionX = Float(desc='The UTM X position of the turbine', units='m')
+    positionY = Float(desc='The UTM Y position of the turbine', units='m')
     wind_rose = VarTree(GenericWindRoseVT(), desc='The wind turbine wind rose')
 
     def __init__(self, wt_desc=None, **kwargs):
