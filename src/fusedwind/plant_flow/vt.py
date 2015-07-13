@@ -513,7 +513,7 @@ class WTPC(GenericWindTurbinePowerCurveVT):
 
     # WTPC
     name = Str(desc='The wind turbine name')
-#     position = Array(shape=(2,), desc='The UTM position of the turbine', units='m')
+    position = Array(shape=(2,), desc='The UTM position of the turbine', units='m')
     positionX = Float(desc='The UTM X position of the turbine', units='m')
     positionY = Float(desc='The UTM Y position of the turbine', units='m')
     wind_rose = VarTree(GenericWindRoseVT(), desc='The wind turbine wind rose')
@@ -617,6 +617,38 @@ class GenericWindFarmTurbineLayout(VariableTree):
         assert_equal(value.shape, [self.n_wt, 2])
         for iwt, wt in enumerate(self.wt_list):
             wt.position = value[iwt,:]
+    
+    @property
+    def wt_positionsX(self):
+        """backward compatibility access to wt_positions """
+        return self.wt_array(attr='positionX')
+        
+    @wt_positionsX.setter
+    def wt_positionsX(self, value):
+        """backward compatibility access to wt_positions
+        update the position of the wind farm layout
+        :param value: ndarray([nwt, 2])
+        :return: nothing
+        """
+        assert_equal(value.shape, [self.n_wt,])
+        for iwt, wt in enumerate(self.wt_list):
+            wt.positionX = value[iwt]
+            
+    @property
+    def wt_positionsY(self):
+        """backward compatibility access to wt_positions """
+        return self.wt_array(attr='positionY')
+        
+    @wt_positionsY.setter
+    def wt_positionsY(self, value):
+        """backward compatibility access to wt_positions
+        update the position of the wind farm layout
+        :param value: ndarray([nwt, 2])
+        :return: nothing
+        """
+        assert_equal(value.shape, [self.n_wt])
+        for iwt, wt in enumerate(self.wt_list):
+            wt.positionY = value[iwt]
 
     @property
     def wt_wind_roses(self):
@@ -683,8 +715,10 @@ class GenericWindFarmTurbineLayout(VariableTree):
         if self.n_wt > 0:
             for k,v in self.wt_list[n].items():
                 di[k] = v
-        di['x'] = self.wt_positions[n,0]
-        di['y'] = self.wt_positions[n,1]
+#         di['x'] = self.wt_positions[n,0]
+#         di['y'] = self.wt_positions[n,1]
+        di['x'] = self.wt_positionsX[n]
+        di['y'] = self.wt_positionsY[n]
         if len(self.wt_wind_roses) > 0:
             di['wind_rose'] = self.wt_wind_roses[n]
 
